@@ -25,17 +25,33 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
       - name: Build
+        id: build
         uses: gradle/gradle-build-action@v2
         with:
           arguments: war
           build-root-directory: ./server
         env:
           BUILD_NUMBER: ${{ github.run_number }}
-      - name: Upload to VPS
-        uses: appleboy/scp-action@master
+#      - name: Upload to VPS
+#        uses: appleboy/scp-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          key: ${{ secrets.KEY }}
+#          source: ./server/build/libs/*.war
+#          target: ~/packages/template-app/${{ github.ref_name }}/server
+#          strip_components: 1
+      - name: Install
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: ./server/build/libs/template-app-${{ github.run_number }}.war
-          target: ~/packages/template-app/${{ github.ref_name }}/server
+          script: |
+            echo "${{ steps.build.outputs }}"
+#            systemctl stop tomcat
+#            rm -rf /opt/tomcat/webapps/template-app
+#            find /opt/tomcat/webapps "template-app*" | rm
+#            cp ~/packages/template-app/${{ github.ref_name }}/server/
+#            systemctl start tomcat
+
