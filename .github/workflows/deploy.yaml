@@ -10,7 +10,6 @@ on:
 
 env:
   PROJECT_NAME: template-app
-  PACKAGES_DIRECTORY: ~/packages/${{ PROJECT_NAME }}/${{ github.ref_name }}/server
 
 jobs:
 
@@ -21,6 +20,8 @@ jobs:
     defaults:
       run:
         working-directory: ./server
+    env:
+      PACKAGES_DIRECTORY: ~/packages/${{ PROJECT_NAME }}/${{ github.ref_name }}/server
     steps:
 
       - name: Checkout
