@@ -36,6 +36,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-//tasks.war {
-//    archiveFileName.set("template-app##${project.version}.${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}.war")
-//}
+tasks.war {
+    archiveFileName.set("${project.name}##${project.version}.${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}.war")
+}
