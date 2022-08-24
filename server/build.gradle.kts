@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.evgenltd"
-version = "1.0.0"
+version = "1.0"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -37,5 +37,5 @@ tasks.withType<Test> {
 }
 
 tasks.war {
-    archiveFileName.set("template-app.war")
+    archiveFileName.set("template-app-${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}.war")
 }
