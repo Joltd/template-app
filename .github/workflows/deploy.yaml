@@ -41,14 +41,20 @@ jobs:
 #          source: ./server/build/libs/*.war
 #          target: ~/packages/template-app/${{ github.ref_name }}/server
 #          strip_components: 1
-      - name: Install
-        uses: appleboy/ssh-action@master
+      - name: Print step result
+        uses: actions/github-script@v6
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
           script: |
-            echo "${{ steps.build.outputs }}"
+            core.info(${{ steps.build.outputs }})
+#      - name: Install
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          key: ${{ secrets.KEY }}
+#          script: |
+#            printf '%s\n' "${my_array[@]}"
+#            echo "${{ steps.build.outputs }}"
 #            systemctl stop tomcat
 #            rm -rf /opt/tomcat/webapps/template-app
 #            find /opt/tomcat/webapps "template-app*" | rm
