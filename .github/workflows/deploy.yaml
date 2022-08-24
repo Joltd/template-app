@@ -1,6 +1,6 @@
-name: develop
+name: Deploy
 
-concurrency: develop
+concurrency: deploy
 
 on:
 #  push:
@@ -9,29 +9,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
+  server:
+    name: Build server
     runs-on: ubuntu-latest
-    environment: develop
+    environment: ${{ github.ref }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: develop
       - uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '17'
-      - uses: gradle/gradle-build-action@v2
-        with:
-          arguments: war
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
       - run: ./gradlew war
         working-directory: ./server
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
       - uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USERNAME }}
           key: ${{ secrets.PROD_KEY }}
           source: "./server/build/libs/template-app-${{ github.run_number }}.war"
-          target: "~/packages/template-app/server"
+          target: "~/packages/template-app/${{ github.ref }}/server"
