@@ -12,7 +12,7 @@ jobs:
   server:
     name: Build server
     runs-on: ubuntu-latest
-    environment: ${{ github.ref }}
+    environment: ${{ github.ref_name }}
     defaults:
       run:
         working-directory: ./server
@@ -38,4 +38,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: ./server/build/libs/template-app-${{ github.run_number }}.war
-          target: ~/packages/template-app/${{ github.ref }}/server
+          target: ~/packages/template-app/${{ github.ref_name }}/server
