@@ -42,7 +42,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: ./server/build/libs/${{ env.ARTIFACT }}
+          source: server/build/libs/${{ env.ARTIFACT }}
           target: ~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server
           strip_components: 1
       - name: Install
