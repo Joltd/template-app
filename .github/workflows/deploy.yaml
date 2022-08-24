@@ -13,6 +13,9 @@ jobs:
     name: Build server
     runs-on: ubuntu-latest
     environment: ${{ github.ref }}
+    defaults:
+      run:
+        working-directory: ./server
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,7 +28,6 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew war
-        working-directory: ./server
         env:
           BUILD_NUMBER: ${{ github.run_number }}
       - name: Upload to VPS
@@ -34,5 +36,5 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USERNAME }}
           key: ${{ secrets.PROD_KEY }}
-          source: "./server/build/libs/template-app-${{ github.run_number }}.war"
-          target: "~/packages/template-app/${{ github.ref }}/server"
+          source: ./server/build/libs/template-app-${{ github.run_number }}.war
+          target: ~/packages/template-app/${{ github.ref }}/server
