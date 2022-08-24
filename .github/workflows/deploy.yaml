@@ -24,10 +24,11 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-      - name: Add permission for gradlew
-        run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew war
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: war
+          build-root-directory: ./server
         env:
           BUILD_NUMBER: ${{ github.run_number }}
       - name: Upload to VPS
