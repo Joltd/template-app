@@ -1,4 +1,6 @@
-**\.idea
+.idea
 .gradle
-**\build
-**\node_modules
+build
+node_modules
+dist
+.angular
