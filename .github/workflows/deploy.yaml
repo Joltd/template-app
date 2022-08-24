@@ -10,7 +10,7 @@ on:
 
 env:
   PROJECT_NAME: template-app
-  PACKAGES_DIRECTORY: ~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server
+  PACKAGES_DIRECTORY: ~/packages/${{ PROJECT_NAME }}/${{ github.ref_name }}/server
 
 jobs:
 
