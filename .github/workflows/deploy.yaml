@@ -28,7 +28,6 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
       - name: Build
-        id: build
         uses: gradle/gradle-build-action@v2
         with:
           arguments: war
@@ -53,8 +52,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-#            systemctl stop tomcat
             find /opt/tomcat/webapps -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
             cp ~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server/${{ env.ARTIFACT }} /opt/tomcat/webapps
-#            systemctl start tomcat
-
