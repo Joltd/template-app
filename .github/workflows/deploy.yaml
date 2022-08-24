@@ -3,15 +3,17 @@ name: Deploy
 concurrency: deploy
 
 on:
-#  push:
-#    branches:
-#      - develop
+  push:
+    branches:
+      - ${{ github.ref_name }}
   workflow_dispatch:
 
 env:
   PROJECT_NAME: template-app
+  PACKAGES_DIRECTORY: ~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server
 
 jobs:
+
   server:
     name: Build server
     runs-on: ubuntu-latest
@@ -48,7 +50,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "server/build/libs/${{ env.ARTIFACT }}"
-          target: "~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server"
+          target: ${{ env.PACKAGES_DIRECTORY }}
           rm: true
           strip_components: 3
 
@@ -59,5 +61,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
+            systemctl stop tomcat
             find /opt/tomcat/webapps -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
-            cp ~/packages/${{ env.PROJECT_NAME }}/${{ github.ref_name }}/server/${{ env.ARTIFACT }} /opt/tomcat/webapps
+            cp ${{ env.PACKAGES_DIRECTORY }}/${{ env.ARTIFACT }} /opt/tomcat/webapps
+            systemctl start tomcat
