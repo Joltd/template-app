@@ -28,9 +28,7 @@ import {ShortMessageService} from "./common/service/short-message.service";
     })
   ],
   providers: [
-    restInterceptorProvider,
-    ShortMessageService,
-    ErrorService
+    restInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
