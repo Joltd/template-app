@@ -37,7 +37,7 @@ jobs:
       - name: Build
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: war
+          arguments: war -Dprofile=prod
           build-root-directory: ./server
 
       - name: Artifact name

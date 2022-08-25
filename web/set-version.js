@@ -12,12 +12,7 @@ fs.readFile(environmentPath, 'utf-8', function (err, data) {
     return
   }
 
-  let from = indexOf(data, 'version')
-  from = indexOf(data, '\'', from)
-  let to = indexOf(data,'\'', from + 1)
-
-  let forReplace = data.substring(from + 1, to)
-  let result = data.replace(forReplace, version)
+  let result = replaceVariable(data, 'version', version)
 
   fs.writeFile(environmentPath, result, function (err) {
     console.log(err)
@@ -30,4 +25,13 @@ function indexOf(target, searchString, position = 0) {
     throw `Unable to find "${target}"`
   }
   return result
+}
+
+function replaceVariable(data, variable, target, quote = '\'') {
+  let from = indexOf(data, variable)
+  from = indexOf(data, quote, from)
+  let to = indexOf(data, quote, from + 1)
+
+  let forReplace = data.substring(from + 1, to)
+  return data.replace(forReplace, target)
 }
