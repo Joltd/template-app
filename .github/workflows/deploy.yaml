@@ -9,11 +9,8 @@ on:
   workflow_dispatch:
 
 env:
-  HOST: ${{ secrets.HOST }}
   PROJECT_NAME: template-app
   BUILD_NUMBER: ${{ github.run_number }}
-  SERVER_RESULT: ❌
-  WEB_RESULT: ❌
 
 jobs:
 
@@ -72,8 +69,6 @@ jobs:
 
       - name: Set success
         uses: allenevans/set-env@v2.0.0
-        with:
-          SERVER_RESULT: ✅
 
   web:
     name: Build web
@@ -82,6 +77,8 @@ jobs:
     defaults:
       run:
         working-directory: ./web
+    outputs:
+      emoji: "${{ steps.result.outputs.emoji }}${{ steps.result.outputs.emoji }}"
     steps:
 
       - name: Checkout
@@ -114,10 +111,16 @@ jobs:
           rm: true
           strip_components: 3
 
-      - name: Set success
-        uses: allenevans/set-env@v2.0.0
-        with:
-          WEB_RESULT: ✅
+      - name: Success
+        id: success
+        if: success()
+        run:
+          echo "::set-output name=emoji::✅"
+      - name: Failed
+        id: failed
+        if: failure()
+        run:
+          echo "::set-output name=emoji::❌"
 
   notify:
     name: Notification
@@ -133,11 +136,11 @@ jobs:
           message: |
             Done
             
-            ${{ env.SERVER_RESULT }} Server ${{ needs.server.result }}
-            ${{ env.WEB_RESULT }} Web ${{ needs.web.result }}
+            ${{ needs.server.outputs.emoji }} Server ${{ needs.server.result }}
+            ${{ needs.web.outputs.emoji }} Web ${{ needs.web.result }}
             
-            App https://${{ env.HOST }}/${{ env.PROJECT_NAME }}
+            App https://evgen-dev.ddns.net/${{ env.PROJECT_NAME }}
             
             Build run https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
-            Manager https://${{ env.HOST }}:8090/manager
+            Manager https://evgen-dev.ddns.net:8090/manager

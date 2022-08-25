@@ -1,9 +1,0 @@
-2022-08-26 03:33:33.092  INFO 16456 --- [main] com.evgenltd.templateapp.ApplicationKt   : Starting ApplicationKt using Java 18.0.1.1 on EVGEN-HP with PID 16456 (C:\Users\lebed\IdeaProjects\template-app\server\build\classes\kotlin\main started by lebed in C:\Users\lebed\IdeaProjects\template-app)
-2022-08-26 03:33:33.095  INFO 16456 --- [main] com.evgenltd.templateapp.ApplicationKt   : The following 1 profile is active: "prod"
-2022-08-26 03:33:34.118  INFO 16456 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2022-08-26 03:33:34.127  INFO 16456 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2022-08-26 03:33:34.130  INFO 16456 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2022-08-26 03:33:34.217  INFO 16456 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2022-08-26 03:33:34.217  INFO 16456 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1071 ms
-2022-08-26 03:33:34.548  INFO 16456 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2022-08-26 03:33:34.557  INFO 16456 --- [main] com.evgenltd.templateapp.ApplicationKt   : Started ApplicationKt in 1.91 seconds (JVM running for 2.596)
