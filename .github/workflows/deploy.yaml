@@ -83,6 +83,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: npm
+          cache-dependency-path: 'package-lock.json'
       - run: |
           npm install -g @angular/cli
           npm update
@@ -94,7 +96,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: dist/${{ env.PROJECT_NAME }}/*.*"
+          source: dist/*.*"
           target: /var/www/${{ secrets.HOST }}/html
           rm: true
           strip_components: 2
