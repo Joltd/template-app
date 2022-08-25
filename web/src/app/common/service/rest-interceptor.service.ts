@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpEvent,
@@ -13,20 +13,24 @@ import {ErrorService} from "./error.service";
 import {plainToClass} from "class-transformer";
 import {TypeUtils} from "./type-utils";
 import {environment} from "../../../environments/environment";
+import {APP_BASE_HREF} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestInterceptorService implements HttpInterceptor {
 
-  constructor(private errorService: ErrorService) {}
+  constructor(
+    private errorService: ErrorService,
+    @Inject(APP_BASE_HREF) private baseHref: string
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.responseType != 'json') {
       return next.handle(req);
     }
 
-    req = req.clone({url: environment.backend + req.url})
+    req = req.clone({url: this.baseHref + environment.backend + req.url})
 
     return next.handle(req)
       .pipe(
