@@ -5,6 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from "@angular/common/http";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {restInterceptorProvider} from "./common/service/rest-interceptor.service";
+import {ErrorService} from "./common/service/error.service";
+import {ShortMessageService} from "./common/service/short-message.service";
 
 @NgModule({
   declarations: [
@@ -13,14 +19,19 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [
+    restInterceptorProvider,
+    ShortMessageService,
+    ErrorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

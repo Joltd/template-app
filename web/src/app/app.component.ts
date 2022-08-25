@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
+import {TypeUtils} from "./common/service/type-utils";
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,12 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<string>('/main')
-      .subscribe(result => this.message = result)
+    this.http.get<MainResponse>('/main', TypeUtils.of(MainResponse))
+      .subscribe(result => this.message = result.message)
   }
 
+}
+
+class MainResponse {
+  message!: string
 }

@@ -14,57 +14,57 @@ env:
 
 jobs:
 
-#  server:
-#    name: Build server
-#    runs-on: ubuntu-latest
-#    environment: ${{ github.ref_name }}
-#    defaults:
-#      run:
-#        working-directory: ./server
-#    env:
-#      PACKAGES_DIRECTORY: ~/packages/template-app/${{ github.ref_name }}/server
-#    steps:
-#
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Setup java
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'corretto'
-#          java-version: '17'
-#
-#      - name: Build
-#        uses: gradle/gradle-build-action@v2
-#        with:
-#          arguments: war
-#          build-root-directory: ./server
-#
-#      - name: Artifact name
-#        run: echo "ARTIFACT=$(find ./build/libs -name '*.war' | xargs basename)" >> $GITHUB_ENV
-#
-#      - name: Upload
-#        uses: appleboy/scp-action@master
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.USERNAME }}
-#          key: ${{ secrets.KEY }}
-#          source: server/build/libs/${{ env.ARTIFACT }}
-#          target: ${{ env.PACKAGES_DIRECTORY }}
-#          rm: true
-#          strip_components: 3
-#
-#      - name: Deploy
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.USERNAME }}
-#          key: ${{ secrets.KEY }}
-#          script: |
-#            systemctl stop tomcat
-#            find /opt/tomcat/webapps -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
-#            cp ${{ env.PACKAGES_DIRECTORY }}/${{ env.ARTIFACT }} /opt/tomcat/webapps
-#            systemctl start tomcat
+  server:
+    name: Build server
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    defaults:
+      run:
+        working-directory: ./server
+    env:
+      PACKAGES_DIRECTORY: ~/packages/template-app/${{ github.ref_name }}/server
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: war
+          build-root-directory: ./server
+
+      - name: Artifact name
+        run: echo "ARTIFACT=$(find ./build/libs -name '*.war' | xargs basename)" >> $GITHUB_ENV
+
+      - name: Upload
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: server/build/libs/${{ env.ARTIFACT }}
+          target: ${{ env.PACKAGES_DIRECTORY }}
+          rm: true
+          strip_components: 3
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            systemctl stop tomcat
+            find /opt/tomcat/webapps -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
+            cp ${{ env.PACKAGES_DIRECTORY }}/${{ env.ARTIFACT }} /opt/tomcat/webapps
+            systemctl start tomcat
 
   web:
     name: Build web
