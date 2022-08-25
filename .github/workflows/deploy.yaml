@@ -10,6 +10,7 @@ on:
 
 env:
   PROJECT_NAME: template-app
+  BUILD_NUMBER: ${{ github.run_number }}
 
 jobs:
 
@@ -38,8 +39,6 @@ jobs:
 #        with:
 #          arguments: war
 #          build-root-directory: ./server
-#        env:
-#          BUILD_NUMBER: ${{ github.run_number }}
 #
 #      - name: Artifact name
 #        run: echo "ARTIFACT=$(find ./build/libs -name '*.war' | xargs basename)" >> $GITHUB_ENV
@@ -89,6 +88,9 @@ jobs:
           npm install -g @angular/cli
           npm update
 
+      - name: Set version
+        run: node set-version.js
+
       - name: Build
         run: ng build
 
@@ -98,7 +100,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: ./web/dist
+          source: ./web/dist/${{ env.PROJECT_NAME }}
           target: /var/www/${{ secrets.HOST }}/html
           rm: true
           strip_components: 3
