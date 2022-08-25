@@ -101,4 +101,4 @@ jobs:
           source: ./web/dist
           target: /var/www/${{ secrets.HOST }}/html
           rm: true
-          strip_components: 2
+          strip_components: 3
