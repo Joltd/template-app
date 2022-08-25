@@ -105,3 +105,20 @@ jobs:
           target: /var/www/${{ secrets.HOST }}/html
           rm: true
           strip_components: 3
+
+  notify:
+    name: Notification
+    runs-on: ubuntu-latest
+    needs: [server, web]
+    if: ${{ always() }}
+    steps:
+      - name: Notify to telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets:TELEGRAM_TO }}
+          token: ${{ secrets:TELEGRAM_TOKEN }}
+          message: |
+            Done
+            Server {{ needs.server.result }}
+            Web {{ needs.web.result }}
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
