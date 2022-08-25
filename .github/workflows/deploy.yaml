@@ -55,7 +55,7 @@ jobs:
           rm: true
           strip_components: 3
 
-      - name: Install
+      - name: Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -67,34 +67,34 @@ jobs:
             cp ${{ env.PACKAGES_DIRECTORY }}/${{ env.ARTIFACT }} /opt/tomcat/webapps
             systemctl start tomcat
 
-#  web:
-#    name: Build web
-#    runs-on: ubuntu-latest
-#    environment: ${{ github.ref_name }}
-#    defaults:
-#      run:
-#        working-directory: ./web
-#    steps:
-#
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 16
-#      - run: |
-#          npm install -g @angular/cli
-#          npm update
-#          ng build
-#
-#      - name: Deploy
-#        uses: appleboy/scp-action@master
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.USERNAME }}
-#          key: ${{ secrets.KEY }}
-#          source: web/dist/${{ env.PROJECT_NAME }}"
-##          target: ${{ env.PACKAGES_DIRECTORY }}
-#          rm: true
-##          strip_components: 3
+  web:
+    name: Build web
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: |
+          npm install -g @angular/cli
+          npm update
+          ng build
+
+      - name: Deploy
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: web/dist/${{ env.PROJECT_NAME }}/*"
+          target: /var/www/${{ secrets.HOST }}/html
+          rm: true
+          strip_components: 2
