@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {restInterceptorProvider} from "./common/service/rest-interceptor.service";
 import {ErrorService} from "./common/service/error.service";
 import {ShortMessageService} from "./common/service/short-message.service";
+import {APP_BASE_HREF} from "@angular/common";
 
 @NgModule({
   declarations: [

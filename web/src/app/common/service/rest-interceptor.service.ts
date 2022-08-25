@@ -13,7 +13,7 @@ import {ErrorService} from "./error.service";
 import {plainToClass} from "class-transformer";
 import {TypeUtils} from "./type-utils";
 import {environment} from "../../../environments/environment";
-import {APP_BASE_HREF} from "@angular/common";
+import {APP_BASE_HREF, Location} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class RestInterceptorService implements HttpInterceptor {
 
   constructor(
     private errorService: ErrorService,
-    @Inject(APP_BASE_HREF) private baseHref: string
+    private location: Location
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,7 +30,11 @@ export class RestInterceptorService implements HttpInterceptor {
       return next.handle(req);
     }
 
-    req = req.clone({url: this.baseHref + environment.backend + req.url})
+    let url = environment.backend + req.url
+    if (environment.production) {
+      url = this.location.prepareExternalUrl(url)
+    }
+    req = req.clone({url: url})
 
     return next.handle(req)
       .pipe(
