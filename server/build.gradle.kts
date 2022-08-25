@@ -37,5 +37,7 @@ tasks.withType<Test> {
 }
 
 tasks.war {
-    archiveFileName.set("${project.name}##${project.version}.${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}.war")
+    archiveFileName.set("${project.name}.war")
 }
+
+//##${project.version}.${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}
