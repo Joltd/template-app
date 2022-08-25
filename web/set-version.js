@@ -2,6 +2,7 @@ const fs = require('fs')
 const package_json = require('./package.json')
 
 let version = package_json.version + '.' + (process.env.BUILD_NUMBER || 'SNAPSHOT')
+console.log(version)
 
 let environmentPath = 'src/environments/environment.prod.ts'
 
