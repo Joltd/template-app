@@ -119,6 +119,11 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             Done
-            Server {{ needs.server.result }}
-            Web {{ needs.web.result }}
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Server ${{ needs.server.result }}
+            Web ${{ needs.web.result }}
+            
+            App https://${{ secrets.HOST }}/${{ env.PROJECT_NAME }}
+            
+            Build run https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            Manager https://${{ secrets.HOST }}:8090/manager
