@@ -62,6 +62,7 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             systemctl stop tomcat
+            find /opt/tomcat/work/Catalina/localhost -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
             find /opt/tomcat/webapps -name '${{ env.PROJECT_NAME }}*' | xargs rm -rf
             cp ${{ env.PACKAGES_DIRECTORY }}/${{ env.ARTIFACT }} /opt/tomcat/webapps
             systemctl start tomcat

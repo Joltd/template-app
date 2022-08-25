@@ -11,10 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @SpringBootApplication
 class Application : SpringBootServletInitializer() {
 
-    override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
-        return application.sources(Application::class.java)
-    }
-
     @Bean
     fun webMvcConfigurer(): WebMvcConfigurer = object : WebMvcConfigurer {
         override fun addCorsMappings(registry: CorsRegistry) {
