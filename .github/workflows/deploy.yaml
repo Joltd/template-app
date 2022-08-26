@@ -111,19 +111,18 @@ jobs:
   notify:
     name: Notification
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
     needs: [server, web]
     if: ${{ always() }}
     steps:
       - name: Determine emoji status
         id: determine
         run: |
-          if "${{ needs.server.result }}" -eq "success"; then echo "::set-output name=web_emoji::✅"; fi
-#          if "${{ needs.web.result }}" == "success"; then echo "::set-output name=server_emoji::✅" else echo "::set-output name=server_emoji::❌" fi
+          if "${{ needs.server.result }}" -eq "success"; then echo "::set-output name=web_emoji::✅"; else echo "::set-output name=web_emoji::❌" fi
+          if "${{ needs.web.result }}" -eq "success"; then echo "::set-output name=server_emoji::✅"; else echo "::set-output name=server_emoji::❌" fi
 
       - name: Notify to telegram
         uses: appleboy/telegram-action@master
-        env:
-          HOST: ${{ secrets.HOST }}
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -132,9 +131,9 @@ jobs:
             
             ${{ steps.determine.outputs.server_emoji }} Server ${{ needs.server.result }}
             ${{ steps.determine.outputs.web_emoji }} Web ${{ needs.web.result }}
-            host ${{ env.HOST }} - ${HOST}
-            App https://evgen-dev.ddns.net/${{ env.PROJECT_NAME }}
+            
+            App https://${{ secrets.HOST }}/${{ env.PROJECT_NAME }}
             
             Build run https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
-            Manager https://evgen-dev.ddns.net:8090/manager
+            Manager https://${{ secrets.HOST }}:8090/manager
