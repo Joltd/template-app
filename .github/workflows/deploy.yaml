@@ -115,6 +115,12 @@ jobs:
     needs: [server, web]
     if: ${{ always() }}
     steps:
+      - name: Determine emoji
+        run: |
+          declare -A emoji=([success]=✅ [failed]=❌)
+          echo "SERVER_EMOJI=emoji[${{needs.server.result}}]" >> $GITHUB_ENV
+          echo "WEB_EMOJI=emoji[${{needs.web.result}}]" >> $GITHUB_ENV
+
       - name: Notify to telegram
         uses: appleboy/telegram-action@master
         with:
@@ -123,8 +129,8 @@ jobs:
           message: |
             Done
             
-            Server ${{ needs.server.result }}
-            Web ${{ needs.web.result }}
+            ${{ env.SERVER_EMOJI }} Server ${{ needs.server.result }}
+            ${{ env.WEB_EMOJI }} Web ${{ needs.web.result }}
             
             App https://${{ secrets.HOST }}/${{ env.PROJECT_NAME }}
             
