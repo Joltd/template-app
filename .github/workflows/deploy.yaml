@@ -117,8 +117,8 @@ jobs:
       - name: Determine emoji status
         id: determine
         run: |
-          if "${{ needs.server.result }}" == "success"; then echo "::set-output name=web_emoji::✅" else echo "::set-output name=web_emoji::❌" fi
-          if "${{ needs.web.result }}" == "success"; then echo "::set-output name=server_emoji::✅" else echo "::set-output name=server_emoji::❌" fi
+          if [["${{ needs.server.result }}" == "success"]] then echo "::set-output name=web_emoji::✅" fi
+#          if "${{ needs.web.result }}" == "success"; then echo "::set-output name=server_emoji::✅" else echo "::set-output name=server_emoji::❌" fi
 
       - name: Notify to telegram
         uses: appleboy/telegram-action@master
