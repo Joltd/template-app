@@ -49,10 +49,10 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: ./web/dist/${{ env.PROJECT_NAME }}
-          target: /var/www/${{ secrets.HOST }}/html/${{ env.PROJECT_NAME }}
+          source: server/build/libs/${{ env.ARTIFACT }}
+          target: ${{ env.PACKAGES_DIRECTORY }}
           rm: true
-          strip_components: 4
+          strip_components: 3
 
       - name: Deploy
         uses: appleboy/ssh-action@master
@@ -104,9 +104,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: ./web/dist/${{ env.PROJECT_NAME }}
-          target: /var/www/${{ secrets.HOST }}/html
+          target: /var/www/${{ secrets.HOST }}/html/${{ env.PROJECT_NAME }}
           rm: true
-          strip_components: 3
+          strip_components: 4
 
   notify:
     name: Notification
