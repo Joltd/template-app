@@ -117,7 +117,7 @@ jobs:
     steps:
       - name: Determine emoji
         run: |
-          declare -A emoji=([success]=✅ [failed]=❌)
+          declare -A emoji=([success]=✅ [failure]=❌)
           echo "SERVER_EMOJI=${emoji[${{needs.server.result}}]}" >> $GITHUB_ENV
           echo "WEB_EMOJI=${emoji[${{needs.web.result}}]}" >> $GITHUB_ENV
 
