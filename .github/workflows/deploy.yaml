@@ -117,11 +117,13 @@ jobs:
       - name: Determine emoji status
         id: determine
         run: |
-          echo "::set-output name=web_emoji::✅"
-          echo "::set-output name=server_emoji::✅"
+          if ${{ needs.server.result }} == "success"; then echo "::set-output name=web_emoji::✅" else echo "::set-output name=web_emoji::❌" fi
+          if ${{ needs.web.result }} == "success"; then echo "::set-output name=server_emoji::✅" else echo "::set-output name=server_emoji::❌" fi
 
       - name: Notify to telegram
         uses: appleboy/telegram-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -130,7 +132,7 @@ jobs:
             
             ${{ steps.determine.outputs.server_emoji }} Server ${{ needs.server.result }}
             ${{ steps.determine.outputs.web_emoji }} Web ${{ needs.web.result }}
-            ${{ secrets.HOST }}
+            host ${{ env.HOST }} - ${HOST}
             App https://evgen-dev.ddns.net/${{ env.PROJECT_NAME }}
             
             Build run https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
