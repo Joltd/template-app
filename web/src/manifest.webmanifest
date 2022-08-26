@@ -1,11 +1,11 @@
 {
-  "name": "template-app",
-  "short_name": "template-app",
+  "name": "Template App",
+  "short_name": "Template App",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "./template-app",
+  "start_url": "./template-app",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
