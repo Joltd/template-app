@@ -6,12 +6,9 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from "@angular/common/http";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {restInterceptorProvider} from "./common/service/rest-interceptor.service";
-import {ErrorService} from "./common/service/error.service";
-import {ShortMessageService} from "./common/service/short-message.service";
-import {APP_BASE_HREF} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -29,7 +26,8 @@ import {APP_BASE_HREF} from "@angular/common";
     })
   ],
   providers: [
-    restInterceptorProvider
+    restInterceptorProvider,
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}
   ],
   bootstrap: [AppComponent]
 })
