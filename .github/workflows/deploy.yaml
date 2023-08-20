@@ -46,14 +46,14 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -t ${{ env.PROJECT_NAME }}-server:${{ env.PROJECT_VERSION }} ./server
-          docker build -t ${{ env.PROJECT_NAME }}-web:${{ env.PROJECT_VERSION }} ./web
+          docker build -t ${{ env.PROJECT_NAME }}:server-${{ env.PROJECT_VERSION }} ./server
+          docker build -t ${{ env.PROJECT_NAME }}:web-${{ env.PROJECT_VERSION }} ./web
 
       - name: Push to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push ${{ env.PROJECT_NAME }}-server:${{ env.PROJECT_VERSION }}
-          docker push ${{ env.PROJECT_NAME }}-web:${{ env.PROJECT_VERSION }}
+          docker push joltd/${{ env.PROJECT_NAME }}:server-${{ env.PROJECT_VERSION }}
+          docker push joltd/${{ env.PROJECT_NAME }}:web-${{ env.PROJECT_VERSION }}
 
       - name: Deploy
         run: |
