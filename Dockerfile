@@ -1,12 +1,18 @@
 FROM openjdk:17-slim
-#RUN apt update && apt install -y nodejs npm
-#WORKDIR server
-RUN ls
-#RUN chmod +x gradlew
-#RUN ./gradlew --no-daemon --version
-#RUN ./gradlew bootJar --no-daemon --version
-#WORKDIR web
-#RUN npm install
-#RUN npm run build
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+
+WORKDIR /usr/src/app
+COPY . .
+
+WORKDIR server
+RUN chmod +x gradlew
+RUN ./gradlew --no-daemon --version
+RUN ./gradlew bootJar --no-daemon --version
+
+WORKDIR ../web
+RUN npm install
+RUN npm run build
 
 
