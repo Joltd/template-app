@@ -1,4 +1,4 @@
 cd server
-docker build
+docker build .
 cd ../web
-docker build
+docker build .
