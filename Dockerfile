@@ -14,5 +14,3 @@ RUN ./gradlew bootJar --no-daemon --version
 WORKDIR ../web
 RUN npm install
 RUN npm run build
-
-
