@@ -6,6 +6,8 @@ RUN apt-get install -y nodejs
 WORKDIR /usr/src/app
 COPY . .
 
+RUN chmod +x build.sh
+
 WORKDIR server
 RUN chmod +x gradlew
 RUN ./gradlew --no-daemon --version
