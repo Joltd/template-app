@@ -1,6 +1,6 @@
+node_modules
 .idea
+.angular
 .gradle
 build
-node_modules
 dist
-.angular

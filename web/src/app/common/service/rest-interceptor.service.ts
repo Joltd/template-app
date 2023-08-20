@@ -1,4 +1,3 @@
-import {Inject, Injectable} from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpEvent,
@@ -7,13 +6,11 @@ import {
   HttpRequest,
   HttpResponse
 } from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {catchError, map} from "rxjs/operators";
+import {Injectable} from "@angular/core";
 import {ErrorService} from "./error.service";
-import {plainToClass} from "class-transformer";
-import {TypeUtils} from "./type-utils";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {APP_BASE_HREF, Location} from "@angular/common";
+import {Location} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +36,6 @@ export class RestInterceptorService implements HttpInterceptor {
     return next.handle(req)
       .pipe(
         map(event => {
-
           if (!(event instanceof HttpResponse)) {
             return event
           }
@@ -53,13 +49,8 @@ export class RestInterceptorService implements HttpInterceptor {
             throw new Error(responseBody.error);
           }
 
-          let type = TypeUtils.get(req)
-          if (!type) {
-            return event
-          }
-
           return event.clone({
-            body: plainToClass(type, responseBody.body)
+            body: responseBody.body
           })
 
         }),
@@ -77,7 +68,6 @@ export class RestInterceptorService implements HttpInterceptor {
         })
       )
   }
-
 }
 
 export const restInterceptorProvider = [
