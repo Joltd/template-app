@@ -30,7 +30,8 @@ jobs:
           node-version: 16
           cache: npm
           cache-dependency-path: '**/package-lock.json'
-      - run: |
+        working-directory: ./web
+        run: |
           npm install -g @angular/cli
           npm update
 
