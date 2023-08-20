@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup java
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
@@ -30,10 +30,6 @@ jobs:
           node-version: 16
           cache: npm
           cache-dependency-path: '**/package-lock.json'
-        working-directory: ./web
-        run: |
-          npm install -g @angular/cli
-          npm update
 
       - name: Build Server
         uses: gradle/gradle-build-action@v2
@@ -43,7 +39,10 @@ jobs:
 
       - name: Build Web
         working-directory: ./web
-        run: ng build --base-href /${{ env.PROJECT_NAME }}/
+        run: |
+          npm install -g @angular/cli
+          npm update
+          ng build --base-href /${{ env.PROJECT_NAME }}/
 
       - name: Build Docker images
         run: |
