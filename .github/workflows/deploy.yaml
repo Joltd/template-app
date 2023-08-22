@@ -56,11 +56,12 @@ jobs:
           docker push joltd/${{ env.PROJECT_NAME }}:web-${{ env.PROJECT_VERSION }}
 
       - name: Prepare Docker Compose
-        run: sed 's/latest/${{ env.PROJECT_VERSION }}' docker-compose.yml
+        run: sed -i 's/latest/${{ env.PROJECT_VERSION }}/' docker-compose.yml
 
       - name: Send Docker Compose file
         run: scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~/build/${{ env.PROJECT_NAME }}
-        env: ${{ secrets.REMOTE_PRIVATE_KEY }}
+        env:
+          PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
 
       - name: Deploy
         run: |
@@ -69,4 +70,5 @@ jobs:
             docker-compose pull server web &&
             docker-compose up -d
           "
-        env: ${{ secrets.REMOTE_PRIVATE_KEY }}
+        env:
+          PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
