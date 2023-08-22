@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class MainController(
-    @Value("\${VERSION}")
+    @Value("\${APP_VERSION}")
     private val version: String
 ) {
 
