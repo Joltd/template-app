@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
-      - name: Checkout-
+      - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -75,5 +75,5 @@ jobs:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           script: |
             cd ~/build/${{ env.PROJECT_NAME }}
-            docker-compose pull server web
-            docker-compose up -d
+            docker compose pull server web
+            docker compose up -d
