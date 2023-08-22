@@ -1,6 +1,6 @@
 package com.evgenltd.templateapp
 
-import com.evgenltd.templateapp.util.RestLoggingInterceptor
+import com.evgenltd.templateapp.common.util.RestLoggingInterceptor
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
