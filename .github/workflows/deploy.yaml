@@ -59,16 +59,21 @@ jobs:
         run: sed -i 's/latest/${{ env.PROJECT_VERSION }}/' docker-compose.yml
 
       - name: Send Docker Compose file
-        run: scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~/build/${{ env.PROJECT_NAME }}
-        env:
-          PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          source: docker-compose.yml
+          target: ~/build/${{ env.PROJECT_NAME }}
 
       - name: Deploy
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
-            cd ~/build/${{ env.PROJECT_NAME }} &&
-            docker-compose pull server web &&
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          script: |
+            cd ~/build/${{ env.PROJECT_NAME }}
+            docker-compose pull server web
             docker-compose up -d
-          "
-        env:
-          PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
